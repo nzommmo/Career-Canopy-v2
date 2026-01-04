@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .validators import validate_resume_file
+
+
 
 def resume_upload_path(instance, filename):
     """
@@ -9,12 +12,11 @@ def resume_upload_path(instance, filename):
     return f"resumes/user_{instance.user.id}/{filename}"
 
 
-class Application(models.Model):
-    """
-    Represents a single job application.
-    Each application belongs to ONE user.
-    """
+def cover_letter_upload_path(instance, filename):
+    return f"cover_letters/user_{instance.user.id}/{filename}"
 
+
+class Application(models.Model):
     STATUS_CHOICES = [
         ("APPLIED", "Applied"),
         ("INTERVIEWING", "Interviewing"),
@@ -28,23 +30,33 @@ class Application(models.Model):
         on_delete=models.CASCADE,
         related_name="applications"
     )
-    from .validators import validate_resume_file
     company_name = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
+
     resume = models.FileField(
-    upload_to=resume_upload_path,
-    validators=[validate_resume_file],
-    null=True,
-    blank=True),
-    cover_letter = models.TextField(blank=True)
+        upload_to=resume_upload_path,
+        validators=[validate_resume_file],
+        null=True,
+        blank=True
+    )
+
+    cover_letter = models.FileField(
+        upload_to=cover_letter_upload_path,
+        validators=[validate_resume_file],
+        null=True,
+        blank=True
+    )
     application_date = models.DateField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="APPLIED"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.company_name} - {self.position}"
-
 
 class Interview(models.Model):
     """
