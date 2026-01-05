@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--n*qn2i+gz6vk*=ya95res#$_479zi&%kxd(fr72*++zjc+kx&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://careercanopy.api.v1.zearom.com/"]
 
 
 # Application definition
