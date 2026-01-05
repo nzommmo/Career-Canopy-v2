@@ -160,6 +160,8 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vite dev server
+    "https://careercanopy.zearom.com/"
+
 ]
 CORS_ALLOW_CREDENTIALS = True
 
